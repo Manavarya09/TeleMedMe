@@ -1,0 +1,1257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TeleMed Pro - Secure Telemedicine Platform</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <meta name="description" content="HIPAA-compliant telemedicine platform for secure remote consultations">
+</head>
+<body>
+    <!-- Auth Container -->
+    <div id="auth-container" class="auth-container">
+        <div class="auth-box card">
+            <div class="auth-header">
+                <h1 class="app-logo">TeleMed<span>Pro</span></h1>
+                <p class="auth-subtitle">Secure Healthcare, Anywhere</p>
+                <div class="security-badge">
+                    <i class="fas fa-shield-alt"></i> HIPAA Compliant
+                </div>
+            </div>
+
+            <!-- Login Form -->
+            <div id="login-form" class="auth-form">
+                <h2>Sign In</h2>
+                <form id="login-form-element">
+                    <div class="form-group">
+                        <label for="login-email" class="form-label">Email</label>
+                        <input type="email" id="login-email" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="login-password" class="form-label">Password</label>
+                        <div class="password-input-container">
+                            <input type="password" id="login-password" class="form-control" required>
+                            <button type="button" class="password-toggle" aria-label="Toggle password visibility">
+                                <i class="far fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <input type="checkbox" id="remember-me" class="custom-checkbox">
+                                <label for="remember-me">Remember me</label>
+                            </div>
+                            <a href="#" id="forgot-password-link">Forgot password?</a>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn--primary btn--full-width">Sign In</button>
+                </form>
+                <div class="auth-footer">
+                    <p>Don't have an account? <a href="#" id="register-link">Register</a></p>
+                </div>
+            </div>
+
+            <!-- Register Form -->
+            <div id="register-form" class="auth-form hidden">
+                <h2>Create Account</h2>
+                <form id="register-form-element">
+                    <div class="form-group">
+                        <label for="register-name" class="form-label">Full Name</label>
+                        <input type="text" id="register-name" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="register-email" class="form-label">Email</label>
+                        <input type="email" id="register-email" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="register-password" class="form-label">Password</label>
+                        <div class="password-input-container">
+                            <input type="password" id="register-password" class="form-control" required>
+                            <button type="button" class="password-toggle" aria-label="Toggle password visibility">
+                                <i class="far fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="register-role" class="form-label">I am a</label>
+                        <select id="register-role" class="form-control" required>
+                            <option value="">Select your role</option>
+                            <option value="patient">Patient</option>
+                            <option value="doctor">Healthcare Provider</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <div class="consent-checkbox">
+                            <input type="checkbox" id="privacy-consent" class="custom-checkbox" required>
+                            <label for="privacy-consent">I agree to the <a href="#" target="_blank">Privacy Policy</a> and <a href="#" target="_blank">Terms of Service</a></label>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn--primary btn--full-width">Create Account</button>
+                </form>
+                <div class="auth-footer">
+                    <p>Already have an account? <a href="#" id="login-link">Sign In</a></p>
+                </div>
+            </div>
+
+            <!-- Forgot Password Form -->
+            <div id="forgot-password-form" class="auth-form hidden">
+                <h2>Reset Password</h2>
+                <p>Enter your email address and we'll send you instructions to reset your password.</p>
+                <form id="forgot-password-form-element">
+                    <div class="form-group">
+                        <label for="reset-email" class="form-label">Email</label>
+                        <input type="email" id="reset-email" class="form-control" required>
+                    </div>
+                    <button type="submit" class="btn btn--primary btn--full-width">Send Reset Link</button>
+                </form>
+                <div class="auth-footer">
+                    <p><a href="#" id="back-to-login">Back to Sign In</a></p>
+                </div>
+            </div>
+
+            <!-- 2FA Verification Form -->
+            <div id="2fa-form" class="auth-form hidden">
+                <h2>Two-Factor Authentication</h2>
+                <p>Enter the verification code sent to your email.</p>
+                <form id="2fa-form-element">
+                    <div class="form-group verification-code">
+                        <input type="text" maxlength="1" class="form-control verification-input" required>
+                        <input type="text" maxlength="1" class="form-control verification-input" required>
+                        <input type="text" maxlength="1" class="form-control verification-input" required>
+                        <input type="text" maxlength="1" class="form-control verification-input" required>
+                        <input type="text" maxlength="1" class="form-control verification-input" required>
+                        <input type="text" maxlength="1" class="form-control verification-input" required>
+                    </div>
+                    <div class="form-group">
+                        <p class="resend-code">Didn't receive a code? <a href="#" id="resend-code">Resend</a></p>
+                    </div>
+                    <button type="submit" class="btn btn--primary btn--full-width">Verify</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- App Container -->
+    <div id="app-container" class="app-container hidden">
+        <!-- Navigation -->
+        <nav class="main-nav">
+            <div class="nav-header">
+                <h1 class="app-logo">TeleMed<span>Pro</span></h1>
+                <button id="mobile-menu-toggle" class="mobile-menu-toggle" aria-label="Toggle menu">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+            <div class="nav-content">
+                <!-- Patient Navigation -->
+                <ul id="patient-nav" class="nav-list hidden">
+                    <li><a href="#" data-page="patient-dashboard"><i class="fas fa-home"></i> Dashboard</a></li>
+                    <li><a href="#" data-page="patient-appointments"><i class="fas fa-calendar-alt"></i> Appointments</a></li>
+                    <li><a href="#" data-page="patient-consultations"><i class="fas fa-video"></i> Consultations</a></li>
+                    <li><a href="#" data-page="patient-prescriptions"><i class="fas fa-prescription"></i> Prescriptions</a></li>
+                    <li><a href="#" data-page="patient-records"><i class="fas fa-file-medical"></i> Medical Records</a></li>
+                    <li><a href="#" data-page="patient-payments"><i class="fas fa-credit-card"></i> Payments</a></li>
+                    <li><a href="#" data-page="patient-messages"><i class="fas fa-envelope"></i> Messages</a></li>
+                    <li><a href="#" data-page="patient-settings"><i class="fas fa-cog"></i> Settings</a></li>
+                </ul>
+                
+                <!-- Doctor Navigation -->
+                <ul id="doctor-nav" class="nav-list hidden">
+                    <li><a href="#" data-page="doctor-dashboard"><i class="fas fa-home"></i> Dashboard</a></li>
+                    <li><a href="#" data-page="doctor-appointments"><i class="fas fa-calendar-alt"></i> Appointments</a></li>
+                    <li><a href="#" data-page="doctor-patients"><i class="fas fa-user-injured"></i> Patients</a></li>
+                    <li><a href="#" data-page="doctor-consultations"><i class="fas fa-video"></i> Consultations</a></li>
+                    <li><a href="#" data-page="doctor-prescriptions"><i class="fas fa-prescription"></i> Prescriptions</a></li>
+                    <li><a href="#" data-page="doctor-earnings"><i class="fas fa-wallet"></i> Earnings</a></li>
+                    <li><a href="#" data-page="doctor-messages"><i class="fas fa-envelope"></i> Messages</a></li>
+                    <li><a href="#" data-page="doctor-settings"><i class="fas fa-cog"></i> Settings</a></li>
+                </ul>
+                
+                <!-- Admin Navigation -->
+                <ul id="admin-nav" class="nav-list hidden">
+                    <li><a href="#" data-page="admin-dashboard"><i class="fas fa-home"></i> Dashboard</a></li>
+                    <li><a href="#" data-page="admin-users"><i class="fas fa-users"></i> Users</a></li>
+                    <li><a href="#" data-page="admin-appointments"><i class="fas fa-calendar-alt"></i> Appointments</a></li>
+                    <li><a href="#" data-page="admin-transactions"><i class="fas fa-credit-card"></i> Transactions</a></li>
+                    <li><a href="#" data-page="admin-reports"><i class="fas fa-chart-bar"></i> Reports</a></li>
+                    <li><a href="#" data-page="admin-audit"><i class="fas fa-shield-alt"></i> Audit Logs</a></li>
+                    <li><a href="#" data-page="admin-settings"><i class="fas fa-cog"></i> Settings</a></li>
+                </ul>
+            </div>
+            <div class="nav-footer">
+                <div id="theme-toggle" class="theme-toggle">
+                    <i class="fas fa-moon"></i>
+                    <span>Dark Mode</span>
+                </div>
+                <div class="user-menu">
+                    <div class="user-info">
+                        <img id="user-avatar" src="" alt="User avatar" class="user-avatar">
+                        <div>
+                            <p id="user-name" class="user-name"></p>
+                            <p id="user-role" class="user-role"></p>
+                        </div>
+                    </div>
+                    <button id="logout-button" class="btn btn--outline btn--sm">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Header with notifications -->
+            <header class="content-header">
+                <div class="breadcrumb" id="breadcrumb">
+                    <span>Dashboard</span>
+                </div>
+                <div class="header-actions">
+                    <div class="notifications-dropdown">
+                        <button class="notification-bell" id="notification-bell">
+                            <i class="fas fa-bell"></i>
+                            <span class="notification-indicator" id="notification-indicator"></span>
+                        </button>
+                        <div class="notifications-panel hidden" id="notifications-panel">
+                            <div class="notifications-header">
+                                <h3>Notifications</h3>
+                                <button class="mark-all-read" id="mark-all-read">Mark all as read</button>
+                            </div>
+                            <div class="notifications-list" id="notifications-list">
+                                <!-- Notifications will be populated here -->
+                            </div>
+                            <div class="notifications-footer">
+                                <a href="#">View all notifications</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Content pages -->
+            <div class="content-container">
+                <!-- Patient Pages -->
+                <!-- Patient Dashboard -->
+                <div id="patient-dashboard" class="content-page">
+                    <h2>Welcome, <span id="patient-name"></span></h2>
+                    <div class="dashboard-stats">
+                        <div class="stat-card card">
+                            <div class="stat-icon"><i class="fas fa-calendar-check"></i></div>
+                            <div class="stat-content">
+                                <h3>Upcoming Appointments</h3>
+                                <p id="upcoming-appointments-count">0</p>
+                            </div>
+                        </div>
+                        <div class="stat-card card">
+                            <div class="stat-icon"><i class="fas fa-file-prescription"></i></div>
+                            <div class="stat-content">
+                                <h3>Active Prescriptions</h3>
+                                <p id="active-prescriptions-count">0</p>
+                            </div>
+                        </div>
+                        <div class="stat-card card">
+                            <div class="stat-icon"><i class="fas fa-credit-card"></i></div>
+                            <div class="stat-content">
+                                <h3>Payment Due</h3>
+                                <p id="payment-due">$0.00</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="dashboard-row">
+                        <div class="dashboard-column">
+                            <div class="card">
+                                <div class="card__header">
+                                    <h3>Upcoming Appointments</h3>
+                                    <a href="#" class="btn btn--outline btn--sm" data-page="patient-appointments">View All</a>
+                                </div>
+                                <div class="card__body">
+                                    <div id="patient-upcoming-appointments" class="appointment-list">
+                                        <!-- Upcoming appointments will be populated here -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="dashboard-column">
+                            <div class="card">
+                                <div class="card__header">
+                                    <h3>Recent Prescriptions</h3>
+                                    <a href="#" class="btn btn--outline btn--sm" data-page="patient-prescriptions">View All</a>
+                                </div>
+                                <div class="card__body">
+                                    <div id="patient-recent-prescriptions" class="prescription-list">
+                                        <!-- Recent prescriptions will be populated here -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card__header">
+                            <h3>Find a Doctor</h3>
+                        </div>
+                        <div class="card__body">
+                            <div class="search-form">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" placeholder="Search by specialty, name, or symptom">
+                                    <button class="btn btn--primary">Search</button>
+                                </div>
+                            </div>
+                            <div class="doctor-list">
+                                <div class="doctor-card card">
+                                    <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=150" alt="Dr. Sarah Johnson" class="doctor-avatar">
+                                    <div class="doctor-info">
+                                        <h4>Dr. Sarah Johnson</h4>
+                                        <p class="doctor-specialty">Cardiology</p>
+                                        <div class="doctor-rating">
+                                            <span class="stars">★★★★★</span>
+                                            <span>4.8</span>
+                                        </div>
+                                        <p class="doctor-experience">10 years experience</p>
+                                        <button class="btn btn--primary btn--sm">Book Appointment</button>
+                                    </div>
+                                </div>
+                                <div class="doctor-card card">
+                                    <img src="https://images.unsplash.com/photo-1582750433449-648ed127bb54?w=150" alt="Dr. Michael Chen" class="doctor-avatar">
+                                    <div class="doctor-info">
+                                        <h4>Dr. Michael Chen</h4>
+                                        <p class="doctor-specialty">Neurology</p>
+                                        <div class="doctor-rating">
+                                            <span class="stars">★★★★★</span>
+                                            <span>4.9</span>
+                                        </div>
+                                        <p class="doctor-experience">15 years experience</p>
+                                        <button class="btn btn--primary btn--sm">Book Appointment</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Patient Appointments -->
+                <div id="patient-appointments" class="content-page hidden">
+                    <div class="page-header">
+                        <h2>My Appointments</h2>
+                        <button id="book-appointment-btn" class="btn btn--primary">Book New Appointment</button>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card__header">
+                            <div class="tab-navigation">
+                                <button class="tab-btn active" data-tab="upcoming">Upcoming</button>
+                                <button class="tab-btn" data-tab="past">Past</button>
+                                <button class="tab-btn" data-tab="cancelled">Cancelled</button>
+                            </div>
+                        </div>
+                        <div class="card__body">
+                            <div id="upcoming-tab" class="tab-content">
+                                <div id="patient-appointments-list" class="appointments-list">
+                                    <!-- Appointments will be populated here -->
+                                </div>
+                            </div>
+                            <div id="past-tab" class="tab-content hidden">
+                                <div class="appointments-list">
+                                    <p class="empty-state">No past appointments to display.</p>
+                                </div>
+                            </div>
+                            <div id="cancelled-tab" class="tab-content hidden">
+                                <div class="appointments-list">
+                                    <p class="empty-state">No cancelled appointments to display.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Patient Video Consultation -->
+                <div id="patient-consultations" class="content-page hidden">
+                    <div class="consultation-container">
+                        <div class="video-container">
+                            <div class="main-video">
+                                <div class="video-placeholder doctor-video">
+                                    <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=150" alt="Doctor" class="video-avatar">
+                                    <div class="video-controls">
+                                        <button class="video-control-btn" title="Mute"><i class="fas fa-microphone"></i></button>
+                                        <button class="video-control-btn" title="Turn off camera"><i class="fas fa-video"></i></button>
+                                        <button class="video-control-btn red" title="End call"><i class="fas fa-phone-slash"></i></button>
+                                        <button class="video-control-btn" title="Share screen"><i class="fas fa-desktop"></i></button>
+                                        <button class="video-control-btn" title="More options"><i class="fas fa-ellipsis-h"></i></button>
+                                    </div>
+                                </div>
+                                <div class="self-video">
+                                    <div class="video-placeholder patient-video">
+                                        <img id="patient-video-avatar" src="" alt="You" class="video-avatar">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="consultation-sidebar">
+                                <div class="chat-container">
+                                    <div class="chat-header">
+                                        <h3>Chat</h3>
+                                    </div>
+                                    <div class="chat-messages">
+                                        <div class="message doctor-message">
+                                            <div class="message-content">
+                                                <p>Hello! How are you feeling today?</p>
+                                            </div>
+                                            <span class="message-time">10:01</span>
+                                        </div>
+                                        <div class="message patient-message">
+                                            <div class="message-content">
+                                                <p>I'm feeling much better, thanks doctor!</p>
+                                            </div>
+                                            <span class="message-time">10:02</span>
+                                        </div>
+                                    </div>
+                                    <div class="chat-input">
+                                        <input type="text" placeholder="Type a message..." class="form-control">
+                                        <button class="btn btn--primary btn--sm"><i class="fas fa-paper-plane"></i></button>
+                                    </div>
+                                </div>
+                                <div class="consultation-info">
+                                    <h3>Consultation Details</h3>
+                                    <div class="info-item">
+                                        <span class="info-label">Doctor:</span>
+                                        <span class="info-value">Dr. Sarah Johnson</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-label">Specialty:</span>
+                                        <span class="info-value">Cardiology</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-label">Date:</span>
+                                        <span class="info-value">June 18, 2025</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-label">Duration:</span>
+                                        <span class="info-value">30 minutes</span>
+                                    </div>
+                                    <div class="connection-quality">
+                                        <span class="quality-indicator good">
+                                            <i class="fas fa-wifi"></i> Good connection
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Patient Prescriptions -->
+                <div id="patient-prescriptions" class="content-page hidden">
+                    <h2>My Prescriptions</h2>
+                    <div class="card">
+                        <div class="card__body">
+                            <div class="prescription-filters">
+                                <div class="search-box">
+                                    <input type="text" class="form-control" placeholder="Search prescriptions...">
+                                    <i class="fas fa-search"></i>
+                                </div>
+                                <div class="filter-options">
+                                    <select class="form-control">
+                                        <option value="all">All Status</option>
+                                        <option value="active">Active</option>
+                                        <option value="expired">Expired</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div id="patient-prescriptions-list" class="prescriptions-list">
+                                <!-- Prescriptions will be populated here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Patient Medical Records -->
+                <div id="patient-records" class="content-page hidden">
+                    <h2>Medical Records</h2>
+                    <div class="card">
+                        <div class="card__body">
+                            <div class="records-filters">
+                                <div class="search-box">
+                                    <input type="text" class="form-control" placeholder="Search medical records...">
+                                    <i class="fas fa-search"></i>
+                                </div>
+                                <div class="filter-options">
+                                    <select class="form-control">
+                                        <option value="all">All Types</option>
+                                        <option value="consultation">Consultation Notes</option>
+                                        <option value="diagnostic">Diagnostic Reports</option>
+                                        <option value="lab">Lab Results</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div id="patient-records-list" class="records-list">
+                                <!-- Medical records will be populated here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Patient Payments -->
+                <div id="patient-payments" class="content-page hidden">
+                    <h2>Payment History</h2>
+                    <div class="card">
+                        <div class="card__body">
+                            <div class="payment-stats">
+                                <div class="payment-stat">
+                                    <h4>Total Spent</h4>
+                                    <p>$350.00</p>
+                                </div>
+                                <div class="payment-stat">
+                                    <h4>Last Payment</h4>
+                                    <p>June 17, 2025</p>
+                                </div>
+                                <div class="payment-stat">
+                                    <h4>Pending</h4>
+                                    <p>$0.00</p>
+                                </div>
+                            </div>
+                            <div class="payment-history">
+                                <h3>Transaction History</h3>
+                                <table class="data-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Date</th>
+                                            <th>Description</th>
+                                            <th>Amount</th>
+                                            <th>Status</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="payment-history-table">
+                                        <!-- Payment history will be populated here -->
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="payment-methods">
+                                <h3>Payment Methods</h3>
+                                <div class="payment-method-list">
+                                    <div class="payment-method-card">
+                                        <div class="card-icon"><i class="far fa-credit-card"></i></div>
+                                        <div class="card-details">
+                                            <h4>Visa ending in 4242</h4>
+                                            <p>Expires 05/27</p>
+                                        </div>
+                                        <div class="card-actions">
+                                            <button class="btn btn--outline btn--sm">Default</button>
+                                            <button class="btn btn--outline btn--sm"><i class="fas fa-pen"></i></button>
+                                            <button class="btn btn--outline btn--sm"><i class="fas fa-trash"></i></button>
+                                        </div>
+                                    </div>
+                                    <button class="btn btn--outline add-payment-method">
+                                        <i class="fas fa-plus"></i> Add Payment Method
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Doctor Pages -->
+                <!-- Doctor Dashboard -->
+                <div id="doctor-dashboard" class="content-page hidden">
+                    <h2>Welcome, <span id="doctor-name"></span></h2>
+                    <div class="dashboard-stats">
+                        <div class="stat-card card">
+                            <div class="stat-icon"><i class="fas fa-calendar-check"></i></div>
+                            <div class="stat-content">
+                                <h3>Today's Appointments</h3>
+                                <p id="today-appointments-count">0</p>
+                            </div>
+                        </div>
+                        <div class="stat-card card">
+                            <div class="stat-icon"><i class="fas fa-users"></i></div>
+                            <div class="stat-content">
+                                <h3>Total Patients</h3>
+                                <p id="total-patients-count">0</p>
+                            </div>
+                        </div>
+                        <div class="stat-card card">
+                            <div class="stat-icon"><i class="fas fa-wallet"></i></div>
+                            <div class="stat-content">
+                                <h3>This Month's Earnings</h3>
+                                <p id="monthly-earnings">$0.00</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="dashboard-row">
+                        <div class="dashboard-column">
+                            <div class="card">
+                                <div class="card__header">
+                                    <h3>Today's Schedule</h3>
+                                    <a href="#" class="btn btn--outline btn--sm" data-page="doctor-appointments">View All</a>
+                                </div>
+                                <div class="card__body">
+                                    <div id="doctor-today-appointments" class="appointment-list">
+                                        <!-- Today's appointments will be populated here -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="dashboard-column">
+                            <div class="card">
+                                <div class="card__header">
+                                    <h3>Recent Patients</h3>
+                                    <a href="#" class="btn btn--outline btn--sm" data-page="doctor-patients">View All</a>
+                                </div>
+                                <div class="card__body">
+                                    <div id="doctor-recent-patients" class="patient-list">
+                                        <!-- Recent patients will be populated here -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card__header">
+                            <h3>Availability Management</h3>
+                        </div>
+                        <div class="card__body">
+                            <div class="availability-calendar">
+                                <div class="calendar-header">
+                                    <button class="btn btn--outline btn--sm"><i class="fas fa-chevron-left"></i></button>
+                                    <h4>June 2025</h4>
+                                    <button class="btn btn--outline btn--sm"><i class="fas fa-chevron-right"></i></button>
+                                </div>
+                                <div class="calendar-grid">
+                                    <!-- Calendar will be populated here -->
+                                </div>
+                                <div class="calendar-legend">
+                                    <div class="legend-item">
+                                        <span class="legend-color available"></span>
+                                        <span>Available</span>
+                                    </div>
+                                    <div class="legend-item">
+                                        <span class="legend-color booked"></span>
+                                        <span>Booked</span>
+                                    </div>
+                                    <div class="legend-item">
+                                        <span class="legend-color unavailable"></span>
+                                        <span>Unavailable</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Doctor Appointments -->
+                <div id="doctor-appointments" class="content-page hidden">
+                    <div class="page-header">
+                        <h2>Appointments</h2>
+                        <div class="header-actions">
+                            <button class="btn btn--outline">
+                                <i class="fas fa-filter"></i> Filter
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card__header">
+                            <div class="tab-navigation">
+                                <button class="tab-btn active" data-tab="upcoming-doc">Upcoming</button>
+                                <button class="tab-btn" data-tab="past-doc">Past</button>
+                                <button class="tab-btn" data-tab="requests">Requests</button>
+                            </div>
+                        </div>
+                        <div class="card__body">
+                            <div id="upcoming-doc-tab" class="tab-content">
+                                <div id="doctor-appointments-list" class="appointments-list">
+                                    <!-- Appointments will be populated here -->
+                                </div>
+                            </div>
+                            <div id="past-doc-tab" class="tab-content hidden">
+                                <div class="appointments-list">
+                                    <p class="empty-state">No past appointments to display.</p>
+                                </div>
+                            </div>
+                            <div id="requests-tab" class="tab-content hidden">
+                                <div id="appointment-requests-list" class="appointments-list">
+                                    <!-- Appointment requests will be populated here -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Doctor Patients List -->
+                <div id="doctor-patients" class="content-page hidden">
+                    <div class="page-header">
+                        <h2>My Patients</h2>
+                        <div class="search-box">
+                            <input type="text" class="form-control" placeholder="Search patients...">
+                            <i class="fas fa-search"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card__body">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Patient</th>
+                                        <th>Age</th>
+                                        <th>Last Visit</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="doctor-patients-list">
+                                    <!-- Patients will be populated here -->
+                                    <tr>
+                                        <td>
+                                            <div class="patient-info">
+                                                <img src="https://images.unsplash.com/photo-1494790108755-2616b612b494?w=150" alt="Emily Rodriguez" class="patient-avatar">
+                                                <div>
+                                                    <h4>Emily Rodriguez</h4>
+                                                    <p>Patient ID: P-3001</p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>40</td>
+                                        <td>June 17, 2025</td>
+                                        <td><span class="status status--success">Active</span></td>
+                                        <td>
+                                            <div class="table-actions">
+                                                <button class="btn btn--outline btn--sm" title="View"><i class="fas fa-eye"></i></button>
+                                                <button class="btn btn--outline btn--sm" title="Message"><i class="fas fa-envelope"></i></button>
+                                                <button class="btn btn--outline btn--sm" title="Schedule"><i class="fas fa-calendar-plus"></i></button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Doctor Prescriptions -->
+                <div id="doctor-prescriptions" class="content-page hidden">
+                    <div class="page-header">
+                        <h2>Prescriptions</h2>
+                        <button class="btn btn--primary">Create Prescription</button>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card__body">
+                            <div class="prescription-filters">
+                                <div class="search-box">
+                                    <input type="text" class="form-control" placeholder="Search prescriptions...">
+                                    <i class="fas fa-search"></i>
+                                </div>
+                                <div class="filter-options">
+                                    <select class="form-control">
+                                        <option value="all">All Patients</option>
+                                        <option value="emily">Emily Rodriguez</option>
+                                        <option value="james">James Wilson</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div id="doctor-prescriptions-list" class="prescriptions-list">
+                                <!-- Prescriptions will be populated here -->
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Prescription Form Modal -->
+                    <div id="prescription-modal" class="modal-container hidden">
+                        <div class="modal card">
+                            <div class="modal-header">
+                                <h3>Create New Prescription</h3>
+                                <button class="modal-close"><i class="fas fa-times"></i></button>
+                            </div>
+                            <div class="modal-body">
+                                <form id="prescription-form">
+                                    <div class="form-group">
+                                        <label for="prescription-patient" class="form-label">Patient</label>
+                                        <select id="prescription-patient" class="form-control" required>
+                                            <option value="">Select Patient</option>
+                                            <option value="3">Emily Rodriguez</option>
+                                            <option value="4">James Wilson</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="prescription-medication" class="form-label">Medication</label>
+                                        <input type="text" id="prescription-medication" class="form-control" required>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label for="prescription-dosage" class="form-label">Dosage</label>
+                                            <input type="text" id="prescription-dosage" class="form-control" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="prescription-duration" class="form-label">Duration</label>
+                                            <input type="text" id="prescription-duration" class="form-control" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="prescription-instructions" class="form-label">Instructions</label>
+                                        <textarea id="prescription-instructions" class="form-control" rows="3" required></textarea>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button class="btn btn--outline" data-dismiss="modal">Cancel</button>
+                                <button class="btn btn--primary" id="save-prescription">Create Prescription</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Doctor Earnings -->
+                <div id="doctor-earnings" class="content-page hidden">
+                    <h2>Earnings</h2>
+                    <div class="dashboard-stats">
+                        <div class="stat-card card">
+                            <div class="stat-icon"><i class="fas fa-wallet"></i></div>
+                            <div class="stat-content">
+                                <h3>Total Earnings</h3>
+                                <p>$4,350.00</p>
+                            </div>
+                        </div>
+                        <div class="stat-card card">
+                            <div class="stat-icon"><i class="fas fa-calendar-week"></i></div>
+                            <div class="stat-content">
+                                <h3>This Week</h3>
+                                <p>$750.00</p>
+                            </div>
+                        </div>
+                        <div class="stat-card card">
+                            <div class="stat-icon"><i class="fas fa-calendar-alt"></i></div>
+                            <div class="stat-content">
+                                <h3>This Month</h3>
+                                <p>$2,150.00</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card__header">
+                            <h3>Earnings Overview</h3>
+                            <div class="card-actions">
+                                <select class="form-control">
+                                    <option value="year">This Year</option>
+                                    <option value="month">This Month</option>
+                                    <option value="week">This Week</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="card__body">
+                            <div class="earnings-chart-container">
+                                <canvas id="earnings-chart" height="250"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card__header">
+                            <h3>Transaction History</h3>
+                        </div>
+                        <div class="card__body">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Patient</th>
+                                        <th>Service</th>
+                                        <th>Amount</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="doctor-transactions">
+                                    <!-- Transactions will be populated here -->
+                                    <tr>
+                                        <td>June 17, 2025</td>
+                                        <td>Emily Rodriguez</td>
+                                        <td>Video Consultation</td>
+                                        <td>$150.00</td>
+                                        <td><span class="status status--success">Paid</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>June 16, 2025</td>
+                                        <td>James Wilson</td>
+                                        <td>Neurological Consultation</td>
+                                        <td>$200.00</td>
+                                        <td><span class="status status--success">Paid</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Admin Pages -->
+                <!-- Admin Dashboard -->
+                <div id="admin-dashboard" class="content-page hidden">
+                    <h2>Administration Dashboard</h2>
+                    <div class="dashboard-stats">
+                        <div class="stat-card card">
+                            <div class="stat-icon"><i class="fas fa-users"></i></div>
+                            <div class="stat-content">
+                                <h3>Total Users</h3>
+                                <p>5</p>
+                            </div>
+                        </div>
+                        <div class="stat-card card">
+                            <div class="stat-icon"><i class="fas fa-calendar-check"></i></div>
+                            <div class="stat-content">
+                                <h3>Appointments Today</h3>
+                                <p>3</p>
+                            </div>
+                        </div>
+                        <div class="stat-card card">
+                            <div class="stat-icon"><i class="fas fa-credit-card"></i></div>
+                            <div class="stat-content">
+                                <h3>Revenue (This Month)</h3>
+                                <p>$3,500.00</p>
+                            </div>
+                        </div>
+                        <div class="stat-card card">
+                            <div class="stat-icon"><i class="fas fa-shield-alt"></i></div>
+                            <div class="stat-content">
+                                <h3>System Health</h3>
+                                <p class="status-good">Good</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="dashboard-row">
+                        <div class="dashboard-column">
+                            <div class="card">
+                                <div class="card__header">
+                                    <h3>User Statistics</h3>
+                                </div>
+                                <div class="card__body">
+                                    <div class="chart-container">
+                                        <canvas id="users-chart" height="250"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="dashboard-column">
+                            <div class="card">
+                                <div class="card__header">
+                                    <h3>Recent Activities</h3>
+                                </div>
+                                <div class="card__body">
+                                    <div class="activity-list">
+                                        <div class="activity-item">
+                                            <div class="activity-icon"><i class="fas fa-user-plus"></i></div>
+                                            <div class="activity-content">
+                                                <p>New user registered: Emily Rodriguez</p>
+                                                <span class="activity-time">2 days ago</span>
+                                            </div>
+                                        </div>
+                                        <div class="activity-item">
+                                            <div class="activity-icon"><i class="fas fa-calendar-plus"></i></div>
+                                            <div class="activity-content">
+                                                <p>New appointment scheduled: Dr. Sarah Johnson with Emily Rodriguez</p>
+                                                <span class="activity-time">1 day ago</span>
+                                            </div>
+                                        </div>
+                                        <div class="activity-item">
+                                            <div class="activity-icon"><i class="fas fa-credit-card"></i></div>
+                                            <div class="activity-content">
+                                                <p>Payment received: $150.00 from Emily Rodriguez</p>
+                                                <span class="activity-time">Today</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card__header">
+                            <h3>System Information</h3>
+                        </div>
+                        <div class="card__body">
+                            <div class="system-info">
+                                <div class="info-item">
+                                    <span class="info-label">Platform Name:</span>
+                                    <span class="info-value">TeleMed Pro</span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-label">Version:</span>
+                                    <span class="info-value">2.1.0</span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-label">HIPAA Compliant:</span>
+                                    <span class="info-value yes"><i class="fas fa-check-circle"></i> Yes</span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-label">Encryption:</span>
+                                    <span class="info-value yes"><i class="fas fa-check-circle"></i> Enabled</span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-label">Audit Logging:</span>
+                                    <span class="info-value yes"><i class="fas fa-check-circle"></i> Active</span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-label">Data Retention:</span>
+                                    <span class="info-value">7 years (2555 days)</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Admin Users Management -->
+                <div id="admin-users" class="content-page hidden">
+                    <div class="page-header">
+                        <h2>User Management</h2>
+                        <button class="btn btn--primary">Add New User</button>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card__body">
+                            <div class="table-filters">
+                                <div class="search-box">
+                                    <input type="text" class="form-control" placeholder="Search users...">
+                                    <i class="fas fa-search"></i>
+                                </div>
+                                <div class="filter-options">
+                                    <select class="form-control">
+                                        <option value="all">All Roles</option>
+                                        <option value="doctor">Doctors</option>
+                                        <option value="patient">Patients</option>
+                                        <option value="admin">Admins</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>User</th>
+                                        <th>Email</th>
+                                        <th>Role</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="admin-users-list">
+                                    <!-- Users will be populated here -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Admin Audit Logs -->
+                <div id="admin-audit" class="content-page hidden">
+                    <h2>Audit Logs</h2>
+                    <div class="card">
+                        <div class="card__body">
+                            <div class="table-filters">
+                                <div class="search-box">
+                                    <input type="text" class="form-control" placeholder="Search logs...">
+                                    <i class="fas fa-search"></i>
+                                </div>
+                                <div class="filter-options">
+                                    <select class="form-control">
+                                        <option value="all">All Actions</option>
+                                        <option value="login">Login</option>
+                                        <option value="data_access">Data Access</option>
+                                        <option value="update">Update</option>
+                                        <option value="delete">Delete</option>
+                                    </select>
+                                    <input type="date" class="form-control" value="2025-06-17">
+                                </div>
+                            </div>
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Timestamp</th>
+                                        <th>User</th>
+                                        <th>Action</th>
+                                        <th>IP Address</th>
+                                        <th>Details</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>2025-06-17 15:30:00</td>
+                                        <td>Emily Rodriguez</td>
+                                        <td>Login</td>
+                                        <td>192.168.1.105</td>
+                                        <td>Successful login</td>
+                                    </tr>
+                                    <tr>
+                                        <td>2025-06-17 15:35:22</td>
+                                        <td>Dr. Sarah Johnson</td>
+                                        <td>Data Access</td>
+                                        <td>192.168.1.110</td>
+                                        <td>Accessed patient records: Emily Rodriguez</td>
+                                    </tr>
+                                    <tr>
+                                        <td>2025-06-17 16:10:05</td>
+                                        <td>Dr. Sarah Johnson</td>
+                                        <td>Update</td>
+                                        <td>192.168.1.110</td>
+                                        <td>Created prescription for patient: Emily Rodriguez</td>
+                                    </tr>
+                                    <tr>
+                                        <td>2025-06-17 16:15:30</td>
+                                        <td>Admin User</td>
+                                        <td>System</td>
+                                        <td>192.168.1.1</td>
+                                        <td>System backup completed</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Appointment Booking Modal -->
+    <div id="appointment-modal" class="modal-container hidden">
+        <div class="modal card">
+            <div class="modal-header">
+                <h3>Book an Appointment</h3>
+                <button class="modal-close"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <form id="appointment-form">
+                    <div class="form-group">
+                        <label for="appointment-doctor" class="form-label">Doctor</label>
+                        <select id="appointment-doctor" class="form-control" required>
+                            <option value="">Select Doctor</option>
+                            <option value="1">Dr. Sarah Johnson (Cardiology)</option>
+                            <option value="2">Dr. Michael Chen (Neurology)</option>
+                        </select>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="appointment-date" class="form-label">Date</label>
+                            <input type="date" id="appointment-date" class="form-control" min="2025-06-18" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="appointment-time" class="form-label">Time</label>
+                            <select id="appointment-time" class="form-control" required>
+                                <option value="">Select Time</option>
+                                <option value="09:00">9:00 AM</option>
+                                <option value="09:30">9:30 AM</option>
+                                <option value="10:00">10:00 AM</option>
+                                <option value="10:30">10:30 AM</option>
+                                <option value="11:00">11:00 AM</option>
+                                <option value="11:30">11:30 AM</option>
+                                <option value="13:00">1:00 PM</option>
+                                <option value="13:30">1:30 PM</option>
+                                <option value="14:00">2:00 PM</option>
+                                <option value="14:30">2:30 PM</option>
+                                <option value="15:00">3:00 PM</option>
+                                <option value="15:30">3:30 PM</option>
+                                <option value="16:00">4:00 PM</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="appointment-type" class="form-label">Consultation Type</label>
+                        <select id="appointment-type" class="form-control" required>
+                            <option value="video">Video Consultation</option>
+                            <option value="chat">Chat Consultation</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="appointment-reason" class="form-label">Reason for Appointment</label>
+                        <textarea id="appointment-reason" class="form-control" rows="3" required></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn--outline" data-dismiss="modal">Cancel</button>
+                <button class="btn btn--primary" id="book-appointment">Book Appointment</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Payment Modal -->
+    <div id="payment-modal" class="modal-container hidden">
+        <div class="modal card">
+            <div class="modal-header">
+                <h3>Payment Information</h3>
+                <button class="modal-close"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="payment-summary">
+                    <h4>Appointment Summary</h4>
+                    <div class="summary-item">
+                        <span>Doctor:</span>
+                        <span id="payment-doctor">Dr. Sarah Johnson</span>
+                    </div>
+                    <div class="summary-item">
+                        <span>Date & Time:</span>
+                        <span id="payment-datetime">June 18, 2025 at 10:00 AM</span>
+                    </div>
+                    <div class="summary-item">
+                        <span>Type:</span>
+                        <span id="payment-type">Video Consultation</span>
+                    </div>
+                    <div class="summary-item total">
+                        <span>Total:</span>
+                        <span id="payment-amount">$150.00</span>
+                    </div>
+                </div>
+                <form id="payment-form">
+                    <div class="form-group">
+                        <label for="card-holder" class="form-label">Cardholder Name</label>
+                        <input type="text" id="card-holder" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="card-number" class="form-label">Card Number</label>
+                        <div class="card-input-container">
+                            <input type="text" id="card-number" class="form-control" placeholder="1234 5678 9012 3456" maxlength="19" required>
+                            <div class="card-icons">
+                                <i class="fab fa-cc-visa"></i>
+                                <i class="fab fa-cc-mastercard"></i>
+                                <i class="fab fa-cc-amex"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="expiry-date" class="form-label">Expiry Date</label>
+                            <input type="text" id="expiry-date" class="form-control" placeholder="MM/YY" maxlength="5" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="cvv" class="form-label">CVV</label>
+                            <input type="text" id="cvv" class="form-control" placeholder="123" maxlength="4" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="secure-payment-info">
+                            <i class="fas fa-lock"></i>
+                            <span>Your payment information is secure and encrypted.</span>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn--outline" data-dismiss="modal">Cancel</button>
+                <button class="btn btn--primary" id="process-payment">Pay $150.00</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="loading-overlay hidden">
+        <div class="loading-spinner"></div>
+        <p>Processing...</p>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.0/dist/chart.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
